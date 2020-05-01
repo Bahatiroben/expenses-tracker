@@ -1,7 +1,8 @@
 import {Model, Table, Column, PrimaryKey, AutoIncrement, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import { IExpense, IJob, ISetting, IUser, Trepeat} from '../../interfaces/schemasinterfaces';
 
 @Table
-export class User extends Model {
+export class User extends Model implements IUser {
     @AutoIncrement
     @PrimaryKey
     @Column
@@ -20,11 +21,7 @@ export class User extends Model {
     phoneNumber?: string;
 
     @Column
-    image?: string;
-
-    @Column
     password: string;
-
 
     @CreatedAt
     createdAt?: Date;
