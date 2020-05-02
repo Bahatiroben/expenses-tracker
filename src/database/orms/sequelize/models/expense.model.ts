@@ -1,5 +1,5 @@
 import {BelongsTo, ForeignKey, Model, Table, Column, PrimaryKey, AutoIncrement, CreatedAt, UpdatedAt } from 'sequelize-typescript';
-import { IExpense, IJob, ISetting, IUser, Trepeat} from '../../interfaces/schemasinterfaces';
+import { IExpense, IJob, ISetting, IUser, Trepeat} from '../../../../services/interfaces/schemasinterfaces';
 import { User } from './User.model';
 
 @Table
