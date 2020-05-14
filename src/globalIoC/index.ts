@@ -1,19 +1,12 @@
 import {Container, interfaces} from 'inversify';
-import servicesContainer from '../services/servicesIoC/serviceContainer';
-import { GLOBALTYPES } from '../globalTypes/index';
-import {SequelizeInstanceFactory} from '../database/index';
-import * as models from '../database/orms/sequelize/models/index';
+import {allContainers} from './allContainers';
 
 export class ContainerFactory {
     static config(): interfaces.Container {
-        const sequelizeInstance: SequelizeInstanceFactory = new SequelizeInstanceFactory({
-            dialect: 'postgres',
-            models: Object.values(models), logging: false
+        let currentContainer: interfaces.Container = new Container();
+        allContainers.map(container => {
+            currentContainer = Container.merge(currentContainer, container);
         });
-
-        const container = new Container()
-        container.bind<SequelizeInstanceFactory>(GLOBALTYPES.database).toConstantValue(sequelizeInstance)
-       const container1: interfaces.Container = Container.merge(container, servicesContainer);
-       return container1
+        return currentContainer;
     }
 }

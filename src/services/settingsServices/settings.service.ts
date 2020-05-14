@@ -1,16 +1,16 @@
 import {injectable, inject} from 'inversify';
 import { SettingServiceSignature } from './settings.service.signature';
 import { sequelizeInstance } from '../../index';
-import {SequelizeInstanceFactory} from '../../database/index';
+import {SequelizeInstanceFactory} from '../../database/orms/sequelize/index';
 import { ISetting } from '../interfaces/schemasinterfaces'
-import {GLOBALTYPES} from '../../globalTypes/index';
+import {databaseType} from '../../database/databaseTypes'
 
 @injectable()
 export class SettingService extends SettingServiceSignature {
     database: SequelizeInstanceFactory;
     settingModel: any
 
-   constructor(@inject(GLOBALTYPES.database) database: SequelizeInstanceFactory) {
+   constructor(@inject(databaseType) database: SequelizeInstanceFactory) {
         super()
         this.database = database
         this.settingModel = this.database.models.setting

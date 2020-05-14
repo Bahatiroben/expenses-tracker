@@ -9,10 +9,10 @@ import {
     ExpenseServiceSignature
 } from '../index';
 
-const servicesContainer = new Container();
+const DServiceContainer = new Container();
 
-servicesContainer.bind<UserServiceSignature>(SERVICESTYPES.userService).to(UserService);
-servicesContainer.bind<SettingServiceSignature>(SERVICESTYPES.settingService).to(SettingService);
-servicesContainer.bind<ExpenseServiceSignature>(SERVICESTYPES.expenseService).to(ExpenseService);
+DServiceContainer.bind<UserServiceSignature>(SERVICESTYPES.userService).to(UserService);
+DServiceContainer.bind<SettingServiceSignature>(SERVICESTYPES.settingService).to(SettingService);
+DServiceContainer.bind<ExpenseServiceSignature>(SERVICESTYPES.expenseService).to(ExpenseService);
 
-export default servicesContainer
+export default DServiceContainer
