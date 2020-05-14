@@ -25,4 +25,4 @@ const show = async () => {
     console.log(t)
 }
 
-// show()
+show()

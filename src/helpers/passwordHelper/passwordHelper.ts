@@ -1,13 +1,15 @@
+import * as bcrypt from 'bcryptjs';
+import {injectable} from 'inversify';
 import {IPassword} from './passwordInterface';
-import {compare, hash} from 'bcrypt';
 
+@injectable()
 export class Password implements IPassword {
     
     async encrypt(password: string): Promise<string>{
-        return await hash(password, 10);
+        return await bcrypt.hash(password, 10);
     }
-
+ 
     async decrypt(hashedPassword: string, unHashedPassword: string): Promise<boolean>{
-        return await compare(hashedPassword, unHashedPassword);
+        return await bcrypt.compare(hashedPassword, unHashedPassword);
     }
 }

@@ -9,6 +9,7 @@ import { SERVICESTYPES } from '../../services/types';
 import {IResponse, responseType} from '../responseHelper/index';
 import { AutoIncrement } from 'sequelize-typescript';
 
+@injectable()
 export class Authentication implements IAuthHelper{
 
     @inject(SERVICESTYPES.userService)

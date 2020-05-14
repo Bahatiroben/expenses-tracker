@@ -1,6 +1,8 @@
 import {Response} from 'express';
+import {injectable} from 'inversify'
 import {IResponse} from './reponseInterface'
 
+@injectable()
 export class CustomResponse implements IResponse {
     success(res: Response, data: object, message='success', status = 200): Response {
         return res.status(status).json({status, message, data})
