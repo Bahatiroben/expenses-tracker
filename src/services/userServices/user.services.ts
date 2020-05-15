@@ -1,19 +1,16 @@
 import { injectable, inject } from "inversify";
-import { UserServiceSignature } from "./user.service.signature";
+import { IUserServiceInterfacee } from "./user.service.signature";
 import { sequelizeInstance } from "../../index";
 import { SequelizeInstanceFactory } from "../../database/orms/sequelize/index";
 import { IUser } from "../interfaces/schemasinterfaces";
-import {databaseType} from '../../database/databaseTypes'
+import { databaseType } from "../../database/databaseTypes";
 
 @injectable()
-export class UserService extends UserServiceSignature {
+export class UserService implements IUserServiceInterfacee {
   database: SequelizeInstanceFactory;
   userModel: any;
 
-  constructor(
-    @inject(databaseType) database: SequelizeInstanceFactory
-  ) {
-    super();
+  constructor(@inject(databaseType) database: SequelizeInstanceFactory) {
     this.database = database;
     this.userModel = this.database.models.User;
   }

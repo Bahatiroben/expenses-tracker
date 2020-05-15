@@ -1,18 +1,15 @@
 import { injectable, inject } from "inversify";
-import { ExpenseServiceSignature } from "./expense.service.signature";
+import { IExpenseServiceInterface } from "./expense.service.signature";
 import { SequelizeInstanceFactory } from "../../database/orms/sequelize/index";
 import { IExpense } from "../interfaces/schemasinterfaces";
-import {databaseType} from '../../database/databaseTypes'
+import { databaseType } from "../../database/databaseTypes";
 
 @injectable()
-export class ExpenseService extends ExpenseServiceSignature {
+export class ExpenseService implements IExpenseServiceInterface {
   database: SequelizeInstanceFactory;
   expenseModel: any;
 
-  constructor(
-    @inject(databaseType) database: SequelizeInstanceFactory
-  ) {
-    super();
+  constructor(@inject(databaseType) database: SequelizeInstanceFactory) {
     this.database = database;
     this.expenseModel = this.database.models.Expense;
   }
