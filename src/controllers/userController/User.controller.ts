@@ -13,6 +13,7 @@ import { IResponse } from "../../helpers/responseHelper/reponseInterface";
 import { responseType } from "../../helpers/responseHelper/responseTypes";
 import { IPassword, passwordType } from "../../helpers/passwordHelper/index";
 import { IAuthHelper, authType } from "../../helpers/authHelper/index";
+import { UserValidations } from '../../validations/userValidations'
 
 @controller("/user")
 export class UserController {
@@ -28,7 +29,7 @@ export class UserController {
   @inject(authType)
   protected AuthencticationHelper: IAuthHelper;
 
-  @httpPost("/signup")
+  @httpPost("/signup", UserValidations.signup)
   async signup(req: Request, res: Response): Promise<Response> {
     try {
       const userCredentials: IUser = req.body;
@@ -48,11 +49,41 @@ export class UserController {
 
       // create token
       const token = this.AuthencticationHelper.encrypt(userCredentials);
-      await this.userService.create(userCredentials);
+      const createdUser = await this.userService.create(userCredentials);
+      delete createdUser.password;
+      return this.CustomResponse.success(
+        res,
+        { createdUser, token },
+        "user created successfully",
+        201
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @httpPost('/signin', UserValidations.login)
+  async signin(req: Request, res: Response) {
+    try {
+      const userCredentials: ILoginUser = req.body;
+      const result = <any[]> await this.userService.find({ email: userCredentials.email })
+
+      if (result.length === 0) {
+        return this.CustomResponse.notFound(res, "user not registered");
+      }
+      // hash password
+      const passwordMatch: boolean = await this.PasswordHelper.decrypt(result[0].password, userCredentials.password);
+      if(!passwordMatch) {
+        return this.CustomResponse.forbidden(res, "Incorrect password");
+      }
+
+      delete result[0].password;
+      // create token
+      const token = this.AuthencticationHelper.encrypt(result[0].dataValues);
       return this.CustomResponse.success(
         res,
         { token },
-        "user created successfully"
+        "logged in successfully"
       );
     } catch (error) {
       throw error;

@@ -1,7 +1,7 @@
 import { Response } from "express";
 
 export interface IResponse {
-    success: (res: Response, data: object, message: any) => Response;
+    success: (res: Response, data: object, message?: any, status?: number) => Response;
     conflict: (res: Response, message?: any) => Response;
     notFound: (res: Response, message?: any) => Response;
     badMethod: (res: Response, message?: any) => Response;

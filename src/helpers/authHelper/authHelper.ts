@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { IAuthHelper } from "./authHelperInterface";
-import { IUser } from "services/interfaces/schemasinterfaces";
+import { IUser, ILoginUser } from "services/interfaces/schemasinterfaces";
 import { sign, verify } from "jsonwebtoken";
 import * as Config from "../../configVars";
 import { inject, injectable } from "inversify";
@@ -17,7 +17,7 @@ export class Authentication implements IAuthHelper {
   @inject(responseType)
   protected CustomResponse: IResponse;
 
-  encrypt(payload: IUser): string {
+  encrypt(payload: IUser | ILoginUser): string {
     const token: string = sign(payload, Config.JWT_SECRET);
     return token;
   }
