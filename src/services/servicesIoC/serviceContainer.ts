@@ -1,18 +1,24 @@
-import { Container } from 'inversify';
-import {SERVICESTYPES } from '../types';
+import { Container } from "inversify";
+import { SERVICESTYPES } from "../types";
 import {
-    UserService,
-    UserServiceSignature,
-    SettingService,
-    SettingServiceSignature,
-    ExpenseService,
-    ExpenseServiceSignature
-} from '../index';
+  UserService,
+  IUserServiceInterfacee,
+  SettingService,
+  ISettingServiceInterface,
+  ExpenseService,
+  IExpenseServiceInterface,
+} from "../index";
 
-const servicesContainer = new Container();
+const DServiceContainer = new Container();
 
-servicesContainer.bind<UserServiceSignature>(SERVICESTYPES.userService).to(UserService);
-servicesContainer.bind<SettingServiceSignature>(SERVICESTYPES.settingService).to(SettingService);
-servicesContainer.bind<ExpenseServiceSignature>(SERVICESTYPES.expenseService).to(ExpenseService);
+DServiceContainer.bind<IUserServiceInterfacee>(SERVICESTYPES.userService).to(
+  UserService
+);
+DServiceContainer.bind<ISettingServiceInterface>(
+  SERVICESTYPES.settingService
+).to(SettingService);
+DServiceContainer.bind<IExpenseServiceInterface>(
+  SERVICESTYPES.expenseService
+).to(ExpenseService);
 
-export default servicesContainer
+export default DServiceContainer;

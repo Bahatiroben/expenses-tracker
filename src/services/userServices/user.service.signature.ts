@@ -1,10 +1,9 @@
-import { IUser } from '../interfaces/schemasinterfaces'
+import { IUser } from "../interfaces/schemasinterfaces";
 
-export abstract class UserServiceSignature {
+export interface IUserServiceInterfacee {
+  find(where?: any): Promise<IUser | IUser[]>;
 
-    abstract find(where?: any): Promise<IUser | IUser[]>
+  create(user: IUser): Promise<IUser>;
 
-    abstract create(user: IUser): Promise<IUser>
-
-    abstract update(user: IUser, where: any): Promise<number[]>
+  update(user: IUser, where: any): Promise<number[]>;
 }

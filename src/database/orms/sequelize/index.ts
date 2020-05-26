@@ -13,6 +13,7 @@ export class SequelizeInstanceFactory extends Sequelize{
     try {
         this.sync({force:  NODE_ENV === 'test'});
     } catch(error) {
+        console.log(error)
         throw error;
     }
  }

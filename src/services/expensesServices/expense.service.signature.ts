@@ -1,11 +1,9 @@
-import { IExpense } from '../interfaces/schemasinterfaces';
+import { IExpense } from "../interfaces/schemasinterfaces";
 
-export abstract class ExpenseServiceSignature {
+export interface IExpenseServiceInterface {
+  find(where: object): Promise<IExpense | IExpense[]>;
 
-    abstract find(where: object): Promise<IExpense | IExpense[]>
+  update(expense: IExpense, where: object): Promise<number[]>;
 
-    abstract update(expense: IExpense, where: object): Promise<number[]>
-
-    abstract create(expense: IExpense): Promise<IExpense>
-
+  create(expense: IExpense): Promise<IExpense>;
 }
