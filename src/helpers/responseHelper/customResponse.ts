@@ -27,4 +27,8 @@ export class CustomResponse implements IResponse {
     forbidden(res: Response, message: 'you are not allowed to perform this task') {
         return res.status(403).json({status: 403, error: 'forbidden', message});
     }
+
+    validationError(res: Response, message: 'Validation Error') {
+        return res.status(409).json({status: 409, error: 'Bad request', message});
+    }
 }

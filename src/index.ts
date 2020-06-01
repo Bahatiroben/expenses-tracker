@@ -4,9 +4,10 @@ import {UserService} from './services/userServices/user.services';
 import { IUser } from 'services/interfaces/schemasinterfaces';
 import { ContainerFactory } from './globalIoC/index';
 import { databaseType } from './database/databaseTypes';
-import './controllers/index';
 
 export const Container = ContainerFactory.config();
+import './controllers/index';
+
 export const sequelizeInstance: SequelizeInstanceFactory = Container.get(databaseType)
 sequelizeInstance.migrate()
 

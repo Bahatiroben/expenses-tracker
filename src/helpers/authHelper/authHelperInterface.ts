@@ -5,6 +5,6 @@ export interface IAuthHelper {
 
     encrypt: (payload: IUser) => string
 
-    decrypt: (req: Request, res: Response, next: NextFunction) => void
+    decrypt: (req: Request, res: Response) => Promise<IUser | any>
     
 }

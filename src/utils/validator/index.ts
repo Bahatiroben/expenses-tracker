@@ -6,7 +6,7 @@ export default function validate(ObjectToValidate: object, schema: Schema, res: 
     const {error} = schema.validate(ObjectToValidate);
     const Response: IResponse = new CustomResponse()
     if(error) {
-        return Response.forbidden(res, error.message);
+        return Response.validationError(res, error.message);
     }
     next();
 }
