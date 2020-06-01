@@ -14,7 +14,6 @@ import { Request, Response, NextFunction } from "express";
 import { IExpense } from "services/interfaces/schemasinterfaces";
 import { IResponse } from "../../helpers/responseHelper/reponseInterface";
 import { responseType } from "../../helpers/responseHelper/responseTypes";
-// import { IPassword, passwordType } from "../../helpers/passwordHelper/index";
 import { IAuthHelper, authType } from "../../helpers/authHelper/index";
 import { ExpenseValidations } from '../../validations/expenseValidations'
 
@@ -83,11 +82,6 @@ export class ExpenseController {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
 
-      // GIVE NO CLUE ABOUT EXPENSE EXISTING IF THE USER IS NOT THE OWNER. BY NOT USING THE FOLLOWING CODE
-      // if(result[0].dataValues.userId !== userId ) {
-      //   return this.CustomResponse.forbidden(res, "You are not allowed to perform this task")
-      // }
-
       return this.CustomResponse.success(
         res,
         result[0],
@@ -113,11 +107,6 @@ export class ExpenseController {
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
-
-      // GIVE NO CLUE ABOUT EXPENSE EXISTING IF THE USER IS NOT THE OWNER. BY NOT USING THE FOLLOWING CODE
-      // if(result[0].dataValues.userId !== userId ) {
-      //   return this.CustomResponse.forbidden(res, "You are not allowed to perform this task")
-      // }
 
       // update the record
       await this.expenseService.update(expenseUpdate, {id: expenseId})
@@ -145,11 +134,6 @@ export class ExpenseController {
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
-
-      // GIVE NO CLUE ABOUT EXPENSE EXISTING IF THE USER IS NOT THE OWNER. BY NOT USING THE FOLLOWING CODE
-      // if(result[0].dataValues.userId !== userId ) {
-      //   return this.CustomResponse.forbidden(res, "You are not allowed to perform this task")
-      // }
 
       // delete the record
       const deletedRecords: number = await this.expenseService.delete({id: expenseId})

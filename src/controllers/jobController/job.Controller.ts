@@ -14,7 +14,6 @@ import { Request, Response, NextFunction } from "express";
 import { IJob } from "services/interfaces/schemasinterfaces";
 import { IResponse } from "../../helpers/responseHelper/reponseInterface";
 import { responseType } from "../../helpers/responseHelper/responseTypes";
-// import { IPassword, passwordType } from "../../helpers/passwordHelper/index";
 import { IAuthHelper, authType } from "../../helpers/authHelper/index";
 import { ExpenseValidations } from '../../validations/expenseValidations'
 import { JobValidations } from '../../validations/periodicExpenseValidations';
@@ -84,11 +83,6 @@ export class JobsController {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
 
-      // GIVE NO CLUE ABOUT EXPENSE EXISTING IF THE USER IS NOT THE OWNER. BY NOT USING THE FOLLOWING CODE
-      // if(result[0].dataValues.userId !== userId ) {
-      //   return this.CustomResponse.forbidden(res, "You are not allowed to perform this task")
-      // }
-
       return this.CustomResponse.success(
         res,
         result[0],
@@ -114,11 +108,6 @@ export class JobsController {
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
-
-      // GIVE NO CLUE ABOUT EXPENSE EXISTING IF THE USER IS NOT THE OWNER. BY NOT USING THE FOLLOWING CODE
-      // if(result[0].dataValues.userId !== userId ) {
-      //   return this.CustomResponse.forbidden(res, "You are not allowed to perform this task")
-      // }
 
       // update the record
       await this.jobService.update(jobUpdate, {id: jobId})
@@ -146,11 +135,6 @@ export class JobsController {
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
-
-      // GIVE NO CLUE ABOUT EXPENSE EXISTING IF THE USER IS NOT THE OWNER. BY NOT USING THE FOLLOWING CODE
-      // if(result[0].dataValues.userId !== userId ) {
-      //   return this.CustomResponse.forbidden(res, "You are not allowed to perform this task")
-      // }
 
       // delete the record
       const deletedRecords: number = await this.jobService.delete({id: jobId})
