@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 
 export const generalSchema = {
-    userName: Joi
+    string: Joi
                 .string()
                 .trim()
                 .min(3),
@@ -9,5 +9,15 @@ export const generalSchema = {
                 .string()
                 .min(8)
                 .required(),
-    email: Joi.string().email().required()
+    email: Joi
+            .string()
+            .email()
+            .required(),
+    longString: Joi
+                    .string()
+                    .min(30)
+                    .required(),
+    imageUrl: Joi
+                .string(),
+    date: Joi.date()
 }

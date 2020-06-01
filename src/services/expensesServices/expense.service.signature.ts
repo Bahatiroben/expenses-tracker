@@ -6,4 +6,6 @@ export interface IExpenseServiceInterface {
   update(expense: IExpense, where: object): Promise<number[]>;
 
   create(expense: IExpense): Promise<IExpense>;
+
+  delete(where: object): Promise<number>;
 }

@@ -10,7 +10,5 @@ services:
   - postgres
 before_script:
   - psql -c "CREATE DATABASE expenses_test;" -U postgres
-  - psql -c "CREATE USER 'robben' WITH PASSWORD 'password';" -U postgres
-  - npm install -g sequelize-cli
 script:
   - npm run test

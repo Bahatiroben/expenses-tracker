@@ -7,7 +7,6 @@ import { inject, injectable } from "inversify";
 import { IUserServiceInterfacee } from "../../services/index";
 import { SERVICESTYPES } from "../../services/types";
 import { IResponse, responseType } from "../responseHelper/index";
-import { AutoIncrement } from "sequelize-typescript";
 
 @injectable()
 export class Authentication implements IAuthHelper {
@@ -22,16 +21,14 @@ export class Authentication implements IAuthHelper {
     return token;
   }
 
-  async decrypt(req: Request | any, res: Response, next: NextFunction) {
+  async decrypt(req: Request, res: Response): Promise<IUser | any>  {
     try {
       const authorization: string = req.headers.authorization;
-
       if (!authorization) {
         return this.CustomResponse.unAuthorized(res);
       }
 
       const token = authorization.split(" ")[1];
-
       if (!token) {
         return this.CustomResponse.unAuthorized(res, "token not found");
       }
@@ -45,8 +42,7 @@ export class Authentication implements IAuthHelper {
         // if no user found
         return this.CustomResponse.unAuthorized(res);
       }
-      req.user = payload;
-      next();
+      return payload
     } catch (error) {
       throw error;
     }
