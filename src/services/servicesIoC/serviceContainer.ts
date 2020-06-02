@@ -7,6 +7,8 @@ import {
   ISettingServiceInterface,
   ExpenseService,
   IExpenseServiceInterface,
+  JobService,
+  IJobInterface
 } from "../index";
 
 const DServiceContainer = new Container();
@@ -17,8 +19,13 @@ DServiceContainer.bind<IUserServiceInterfacee>(SERVICESTYPES.userService).to(
 DServiceContainer.bind<ISettingServiceInterface>(
   SERVICESTYPES.settingService
 ).to(SettingService);
+
 DServiceContainer.bind<IExpenseServiceInterface>(
   SERVICESTYPES.expenseService
 ).to(ExpenseService);
+
+DServiceContainer.bind<IJobInterface>(
+  SERVICESTYPES.jobService
+  ).to(JobService)
 
 export default DServiceContainer;

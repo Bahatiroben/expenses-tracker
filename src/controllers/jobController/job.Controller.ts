@@ -1,4 +1,4 @@
-import { SettingService, IExpenseServiceInterface } from "../../services/index";
+import { SettingService, IJobInterface } from "../../services/index";
 import { SERVICESTYPES } from "../../services/types";
 import {
   httpGet,
@@ -11,17 +11,18 @@ import {
 } from "inversify-express-utils";
 import { inject, injectable } from "inversify";
 import { Request, Response, NextFunction } from "express";
-import { IExpense } from "services/interfaces/schemasinterfaces";
+import { IJob } from "services/interfaces/schemasinterfaces";
 import { IResponse } from "../../helpers/responseHelper/reponseInterface";
 import { responseType } from "../../helpers/responseHelper/responseTypes";
 import { IAuthHelper, authType } from "../../helpers/authHelper/index";
 import { ExpenseValidations } from '../../validations/expenseValidations'
+import { JobValidations } from '../../validations/periodicExpenseValidations';
 
 
-@controller("/expenses")
-export class ExpenseController {
-  @inject(SERVICESTYPES.expenseService)
-  protected expenseService: IExpenseServiceInterface;
+@controller("/expenses/periodic")
+export class JobsController {
+  @inject(SERVICESTYPES.jobService)
+  protected jobService: IJobInterface;
 
   @inject(responseType)
   protected CustomResponse: IResponse;
@@ -30,24 +31,24 @@ export class ExpenseController {
   private AuthencticationHelper: IAuthHelper;
   
 
-  @httpPost("/add", ExpenseValidations.create)
+  @httpPost("/add", JobValidations.create)
   async add(req: Request, res: Response) {
     try {
       const { id: userId } = await this.AuthencticationHelper.decrypt(req, res);
       if(!userId) {
         return
       }
-      const expense: IExpense = req.body;
-      const result = <IExpense[]>(
-        await this.expenseService.find({title: expense.title, description: expense.description, userId })
+      const job: IJob = req.body;
+      const result = <IJob[]>(
+        await this.jobService.find({title: job.title, description: job.description, userId })
       );
 
       if (result.length !== 0) {
-        return this.CustomResponse.conflict(res, "expense is already present");
+        return this.CustomResponse.conflict(res, "job is already present");
       }
 
-      const createdExpense: IExpense = await this.expenseService.create({...expense, userId});
-      return this.CustomResponse.success(res, createdExpense, "expense added successfully", 201);
+      const createdExpense: IJob = await this.jobService.create({...job, userId});
+      return this.CustomResponse.success(res, createdExpense, "job added successfully", 201);
     } catch (error) {
       throw error;
     }
@@ -60,7 +61,7 @@ export class ExpenseController {
       if(!userId) {
         return
       }
-      const results = await this.expenseService.find({userId});
+      const results = await this.jobService.find({userId});
       return this.CustomResponse.success(res, results);
     }
     catch (error) {
@@ -75,8 +76,8 @@ export class ExpenseController {
       if(!userId) {
         return
       }
-      const expenseId = req.params.id;
-      const result = <any[]> await this.expenseService.find({ id: expenseId, userId });
+      const jobId = req.params.id;
+      const result = <any[]> await this.jobService.find({ id: jobId, userId });
 
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
@@ -85,35 +86,35 @@ export class ExpenseController {
       return this.CustomResponse.success(
         res,
         result[0],
-        "expense updated in successfully"
+        "job updated in successfully"
       );
     } catch (error) {
       throw error;
     }
   }
 
-  @httpPatch('/update/:id', ExpenseValidations.update)
+  @httpPatch('/update/:id', JobValidations.update)
   async update(req: Request, res: Response) {
     try {
       const { id: userId } = await this.AuthencticationHelper.decrypt(req, res);
       if(!userId) {
         return
       }
-      const expenseUpdate =<IExpense> req.body;
-      const { id: expenseId } = req.params;
+      const jobUpdate =<IJob> req.body;
+      const { id: jobId } = req.params;
 
-      const result = <any[]> await this.expenseService.find({ id: expenseId, userId })
+      const result = <any[]> await this.jobService.find({ id: jobId, userId })
 
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
 
       // update the record
-      await this.expenseService.update(expenseUpdate, {id: expenseId})
+      await this.jobService.update(jobUpdate, {id: jobId})
       return this.CustomResponse.success(
         res,
         { message: 'success' },
-        "expense updated in successfully"
+        "job updated in successfully"
       );
     } catch (error) {
       throw error;
@@ -127,20 +128,20 @@ export class ExpenseController {
       if(!userId) {
         return
       }
-      const { id: expenseId } = req.params;
+      const { id: jobId } = req.params;
 
-      const result = <any[]> await this.expenseService.find({ id: expenseId, userId })
+      const result = <any[]> await this.jobService.find({ id: jobId, userId })
 
       if (result.length === 0) {
         return this.CustomResponse.notFound(res, "Expense not found");
       }
 
       // delete the record
-      const deletedRecords: number = await this.expenseService.delete({id: expenseId})
+      const deletedRecords: number = await this.jobService.delete({id: jobId})
       return this.CustomResponse.success(
         res,
         {deletedRecords},
-        "expense updated in successfully"
+        "job updated in successfully"
       );
     } catch (error) {
       throw error;

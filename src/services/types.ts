@@ -1,5 +1,6 @@
 export const SERVICESTYPES = {
     userService: Symbol('USERSERVICE'),
     settingService: Symbol('SETTINGSERVICE'),
-    expenseService: Symbol('EXPENSESERVICE')
+    expenseService: Symbol('EXPENSESERVICE'),
+    jobService: Symbol('JOBSERVICE')
 }
